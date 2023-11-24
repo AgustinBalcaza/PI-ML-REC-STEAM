@@ -53,7 +53,6 @@ prompt-toolkit==3.0.38
 psutil==5.9.4
 pure-eval==0.2.2
 pybind11==2.11.1
-pydantic==2.4.2
 pydantic_core==2.10.1
 Pygments==2.15.0
 PyMySQL==1.1.0
