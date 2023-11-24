@@ -62,7 +62,6 @@ pyparsing
 pytest
 python-dateutil
 pytz
-pywin32
 pyzmq
 qdldl
 referencing
