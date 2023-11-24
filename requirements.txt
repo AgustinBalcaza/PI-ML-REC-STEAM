@@ -67,7 +67,6 @@ qdldl
 referencing
 regex
 requests
-rpds-py
 scikit-learn
 scipy
 scs
