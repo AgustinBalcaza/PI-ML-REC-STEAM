@@ -20,7 +20,7 @@ ecos==2.0.12
 et-xmlfile==1.1.0
 executing==1.2.0
 fancyimpute==0.7.0
-fastapi==0.104.1
+fastapi==0.67.0
 fonttools==4.39.4
 h11==0.14.0
 idna==3.4
