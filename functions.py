@@ -13,8 +13,8 @@ recomendacionjuego = pd.read_csv('data/product.csv')
 def PlayTimeGenre(genero: str):
     filtered_df = playtimegenre[playtimegenre['genres'] == genero]
     grouped_df = filtered_df.groupby('release_year')['playtime_forever'].sum()
-    max_year = grouped_df.idxmax()
-    result = {"Año de lanzamiento con más horas jugadas para {}: {}".format(genero, max_year)}
+    max_year = int(grouped_df.idxmax())
+    result = {"Año de lanzamiento con más horas jugadas para Género {}".format(genero): max_year}
     return result
 
 def UserForGenre(genero: str):
@@ -31,8 +31,8 @@ def UserForGenre(genero: str):
     return result
 
 def UsersRecommend(año: int):
-    filtered_df = usersrecommend[(usersrecommend['year'] == año) & (usersrecommend['recommendations'] > 0)]
-    sorted_df = filtered_df.sort_values(by='recommendations', ascending=False)
+    filtered_df = usersrecommend[(usersrecommend['year'] == año) & (usersrecommend['recommend_score'] > 0)]
+    sorted_df = filtered_df.sort_values(by='recommend_score', ascending=False)
     top_3 = sorted_df.head(3)
     result = [{"Puesto 1": top_3.iloc[0]['app_name']},
               {"Puesto 2": top_3.iloc[1]['app_name']},
@@ -41,17 +41,19 @@ def UsersRecommend(año: int):
 
 def UsersWorstDeveloper(año: int):
     filtered_df = usersworstdeveloper[(usersworstdeveloper['year'] == año) & (usersworstdeveloper['bad_reviews'] > 0)]
-    developer_bad_reviews = filtered_df.groupby('developer')['bad_reviews'].sum()
-    top_developers = developer_bad_reviews.sort_values(ascending=False).head(3)
-    result = [{"Puesto {}: {}".format(i + 1, developer)}
-              for i, (developer) in enumerate(top_developers.items())]
+    developer_stats = filtered_df.groupby('developer').agg({'bad_reviews': 'sum', 'recommend_score': ['min', 'sum']})
+    sorted_developers = developer_stats.sort_values(by=[('bad_reviews', 'sum'), ('recommend_score', 'min'), ('recommend_score', 'sum')],
+                                                    ascending=[False, True, True])
+    top_developers = sorted_developers.head(3)
+    result = [{"Puesto {}".format(i + 1): developer}
+              for i, developer in enumerate(top_developers.index)]
     return result
 
 def sentiment_analysis(desarrolladora: str):
     empresa_df = sentimentanalysis[sentimentanalysis['developer'] == desarrolladora]
-    total_negativas = int(empresa_df['bad_reviews'].sum())
-    total_neutrales = int(empresa_df['neutral_reviews'].sum())
-    total_positivas = int(empresa_df['good_reviews'].sum())
+    total_negativas = empresa_df['bad_reviews'].sum()
+    total_neutrales = empresa_df['neutral_reviews'].sum()
+    total_positivas = empresa_df['good_reviews'].sum()
     resultado = {
         desarrolladora: {
             'Negative': total_negativas,
@@ -62,7 +64,7 @@ def sentiment_analysis(desarrolladora: str):
     return resultado
 
 def recomendacion_juego(game_id: int):
-    path = 'data/cosine_sim.npy'
+    path = 'cosine_sim.npy'
     cosine_sim = np.load(path)
     idx = recomendacionjuego[recomendacionjuego['id'] == game_id].index[0]
     rec_games = recomendacionjuego['app_name'].iloc[cosine_sim[idx]]
