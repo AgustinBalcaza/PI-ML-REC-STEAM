@@ -64,7 +64,7 @@ def sentiment_analysis(desarrolladora: str):
     return resultado
 
 def recomendacion_juego(game_id: int):
-    path = 'cosine_sim.npy'
+    path = 'data/cosine_sim.npy'
     cosine_sim = np.load(path)
     idx = recomendacionjuego[recomendacionjuego['id'] == game_id].index[0]
     rec_games = recomendacionjuego['app_name'].iloc[cosine_sim[idx]]
