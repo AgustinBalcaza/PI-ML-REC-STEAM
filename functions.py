@@ -51,9 +51,9 @@ def UsersWorstDeveloper(año: int):
 
 def sentiment_analysis(desarrolladora: str):
     empresa_df = sentimentanalysis[sentimentanalysis['developer'] == desarrolladora]
-    total_negativas = empresa_df['bad_reviews'].sum()
-    total_neutrales = empresa_df['neutral_reviews'].sum()
-    total_positivas = empresa_df['good_reviews'].sum()
+    total_negativas = int(empresa_df['bad_reviews'].sum())
+    total_neutrales = int(empresa_df['neutral_reviews'].sum())
+    total_positivas = int(empresa_df['good_reviews'].sum())
     resultado = {
         desarrolladora: {
             'Negative': total_negativas,
