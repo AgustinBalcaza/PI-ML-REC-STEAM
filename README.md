@@ -1,6 +1,8 @@
 PI-ML-REC-STEAM
 ==============
 
+`IMPORTANTE`: Tener en cuenta que el enlace del deployment de la API hecho con Render a veces puede demorar un poco en abrir (desde unos segundos hasta 1 o 2 minutos).
+
 Introducción
 --------------
 
@@ -49,4 +51,4 @@ Para utilizar la API, puedes realizar consultas directamente en el sitio donde s
 Autor
 -------
 
-- **Agustín Balcaza** - [LinkedIn](https://ar.linkedin.com/in/agustin-balcaza-35aaa5266?trk=people_directory)
+- **Agustín Balcaza**
